@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # FastAPI backend URL
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = "https://healthcare-demo-q5ce.onrender.com"
 
 # Initialize session state
 if 'user_id' not in st.session_state:
