@@ -430,7 +430,7 @@ def main():
                         st.write("Based on your assessment, here are qualified professionals who specialize in your areas of need:")
                         
                         for clinician in clinicians[:5]:  # Show top 5
-                            with st.expander(f"Dr. {clinician['name']} - {clinician['specialty']}"):
+                            with st.expander(f" {clinician['name']} - {clinician['specialty']}"):
                                 col1, col2 = st.columns(2)
                                 
                                 with col1:
