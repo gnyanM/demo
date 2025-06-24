@@ -826,6 +826,27 @@ async def get_all_clinicians():
         return {"clinicians": clinicians}
     finally:
         conn.close()
+@app.get("/get_disease_code")
+async def get_disease_code():
+    """Return a list of ICD-10 mental health condition codes and their descriptions"""
+    disease_codes = [
+        {"code": "F32", "name": "Depressive Episode"},
+        {"code": "F32.1", "name": "Major Depressive Episode, Moderate"},
+        {"code": "F33", "name": "Recurrent Depressive Disorder"},
+        {"code": "F34", "name": "Persistent Mood Disorders"},
+        {"code": "F41", "name": "Anxiety Disorders"},
+        {"code": "F41.1", "name": "Generalized Anxiety Disorder"},
+        {"code": "F40", "name": "Phobic Anxiety Disorders"},
+        {"code": "F42", "name": "Obsessive-Compulsive Disorder"},
+        {"code": "F42.0", "name": "Predominantly Obsessional Thoughts or Ruminations"},
+        {"code": "F43", "name": "Reaction to Severe Stress and Adjustment Disorders"},
+        {"code": "F43.1", "name": "Post-Traumatic Stress Disorder (PTSD)"},
+        {"code": "F44", "name": "Dissociative [Conversion] Disorders"},
+        {"code": "F50", "name": "Eating Disorders"},
+        {"code": "F50.0", "name": "Anorexia Nervosa"},
+        {"code": "F50.2", "name": "Bulimia Nervosa"},
+    ]
+    return {"disease_codes": disease_codes}
 
 if __name__ == "__main__":
     import uvicorn
