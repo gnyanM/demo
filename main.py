@@ -17,15 +17,20 @@ api_key = os.getenv("OPENAI_API_KEY", "your-openai-api-key-here")
 client = OpenAI(api_key=api_key)
 
 app = FastAPI(title="Enhanced Mental Health Assessment API")
+origins = [
+    "http://localhost:3000",  # frontend dev server
+    "https://your-production-frontend.com"  # optional
+]
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,  # Or ["*"] for testing
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# CORS middleware
+
 
 DATABASE_URL = "enhanced_mental_health.db"
 
