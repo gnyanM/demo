@@ -687,13 +687,30 @@ async def register_user(user: UserRegister):
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
+        
+        # Insert into users table
         cursor.execute(
             "INSERT INTO users (name, email, age, gender) VALUES (?, ?, ?, ?)",
             (user.name, user.email, user.age, user.gender)
         )
         user_id = cursor.lastrowid
+
+        # Generate session_id
+        session_id = str(user_id.uuid4())
+
+        # Insert into sessions table
+        cursor.execute(
+            "INSERT INTO sessions (session_id, user_id) VALUES (?, ?)",
+            (session_id, user_id)
+        )
+
         conn.commit()
-        return {"user_id": user_id, "message": "User registered successfully"}
+        
+        return {
+            "user_id": user_id,
+            "session_id": session_id,
+            "message": "User registered and session started successfully"
+        }
     except sqlite3.IntegrityError:
         raise HTTPException(status_code=400, detail="Email already exists")
     finally:
