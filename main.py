@@ -50,6 +50,15 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    #session table 
+     cursor.execute('''
+        CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER,
+            session_id TEXT,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
     
     # Questions table for structured questions
     cursor.execute('''
@@ -683,30 +692,34 @@ def fallback_analysis(responses: List[dict]) -> dict:
 async def root():
     return {"message": "Enhanced Mental Health Assessment API is running"}
 
+import uuid
+from fastapi import FastAPI, HTTPException
+from your_module import get_db_connection, UserRegister  # Adjust as per your code
+
 @app.post("/register_user")
 async def register_user(user: UserRegister):
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        
-        # Insert into users table
+
+        # Insert user details
         cursor.execute(
             "INSERT INTO users (name, email, age, gender) VALUES (?, ?, ?, ?)",
             (user.name, user.email, user.age, user.gender)
         )
         user_id = cursor.lastrowid
 
-        # Generate session_id
-        session_id = str(user_id.uuid4())
+        # Generate session_id using uuid
+        session_id = str(uuid.uuid4())
 
-        # Insert into sessions table
+        # Insert session
         cursor.execute(
             "INSERT INTO sessions (session_id, user_id) VALUES (?, ?)",
             (session_id, user_id)
         )
 
         conn.commit()
-        
+
         return {
             "user_id": user_id,
             "session_id": session_id,
@@ -716,6 +729,7 @@ async def register_user(user: UserRegister):
         raise HTTPException(status_code=400, detail="Email already exists")
     finally:
         conn.close()
+
 
 @app.get("/get_questions/{user_id}/{session_id}")
 async def get_questions(user_id: int, session_id: str):
