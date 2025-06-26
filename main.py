@@ -437,8 +437,8 @@ populate_clinicians()
 class UserRegister(BaseModel):
     name: str
     email: str
-    age: Optional[int] = None
-    gender: Optional[str] = None
+    age: Optional[int]
+    gender: Optional[str]
 
 class ResponseSubmit(BaseModel):
     user_id: int
