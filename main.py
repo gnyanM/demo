@@ -694,7 +694,7 @@ async def root():
 
 import uuid
 from fastapi import FastAPI, HTTPException
-from your_module import get_db_connection, UserRegister  # Adjust as per your code
+# Adjust as per your code
 
 @app.post("/register_user")
 async def register_user(user: UserRegister):
