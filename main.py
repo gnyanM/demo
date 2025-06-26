@@ -9,6 +9,7 @@ import os
 from openai import OpenAI
 import re
 from dotenv import load_dotenv
+import uuid
 
 load_dotenv()
 
